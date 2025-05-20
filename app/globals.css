@@ -1,0 +1,61 @@
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer base {
+  [data-rehype-pretty-code-figure] pre {
+    @apply px-0;
+  }
+
+  [data-rehype-pretty-code-figure] code {
+    @apply leading-loose! text-sm md:text-base;
+  }
+
+  [data-rehype-pretty-code-figure] code[data-line-numbers] {
+    counter-reset: line;
+  }
+
+  [data-rehype-pretty-code-figure] code[data-line-numbers] > [data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+    @apply mr-4 inline-block w-4 text-right text-gray-500;
+  }
+
+  [data-rehype-pretty-code-figure] pre [data-line] {
+    @apply border-l-2 border-l-transparent px-3;
+  }
+
+  [data-rehype-pretty-code-figure] [data-highlighted-line] {
+    background: rgba(200, 200, 255, 0.1);
+    @apply border-l-blue-400;
+  }
+
+  [data-rehype-pretty-code-figure] [data-highlighted-chars] {
+    @apply rounded-sm bg-zinc-600/50;
+    box-shadow: 0 0 0 4px rgb(82 82 91 / 0.5);
+  }
+
+  [data-rehype-pretty-code-figure] [data-chars-id] {
+    @apply border-b-2 p-1 shadow-none;
+  }
+}
